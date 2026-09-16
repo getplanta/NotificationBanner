@@ -28,11 +28,20 @@ class NotificationBannerUtilities: NSObject {
         (activeWindow()?.safeAreaInsets.top ?? 0.0) > 50.0
     }
 
+    class func isPortrait() -> Bool {
+        activeWindowScene()?.interfaceOrientation.isPortrait ?? true
+    }
+
     private class func activeWindow() -> UIWindow? {
-        let windows = UIApplication.shared.connectedScenes
-            .compactMap { $0 as? UIWindowScene }
-            .flatMap(\.windows)
+        let windows = activeWindowScene()?.windows ?? []
         return windows.first(where: { $0.isKeyWindow }) ?? windows.first
+    }
+
+    private class func activeWindowScene() -> UIWindowScene? {
+        let scenes = UIApplication.shared.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+        return scenes.first(where: { $0.activationState == .foregroundActive })
+            ?? scenes.first
     }
 
 }
