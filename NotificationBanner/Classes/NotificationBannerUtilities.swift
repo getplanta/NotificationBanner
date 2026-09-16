@@ -21,28 +21,15 @@ import UIKit
 class NotificationBannerUtilities: NSObject {
 
     class func isNotchFeaturedIPhone() -> Bool {
-        let value = (activeWindow()?.safeAreaInsets.bottom ?? 0.0) > 0.0
-        debugLog("isNotchFeaturedIPhone=\(value)")
-        return value
+        (activeWindow()?.safeAreaInsets.bottom ?? 0.0) > 0.0
     }
 
     class func hasDynamicIsland() -> Bool {
-        let top = activeWindow()?.safeAreaInsets.top ?? 0.0
-        let value = top > 50.0
-        debugLog("hasDynamicIsland=\(value) safeAreaTop=\(top)")
-        return value
+        (activeWindow()?.safeAreaInsets.top ?? 0.0) > 50.0
     }
 
     class func isPortrait() -> Bool {
-        let scene = activeWindowScene()
-        let orientation = scene?.interfaceOrientation ?? .unknown
-        let value = orientation.isPortrait
-        debugLog("isPortrait=\(value) orientationRaw=\(orientation.rawValue) activationRaw=\(scene?.activationState.rawValue ?? -1)")
-        return value
-    }
-
-    private class func debugLog(_ message: String) {
-        NSLog("[NotificationBanner] \(message)")
+        activeWindowScene()?.interfaceOrientation.isPortrait ?? true
     }
 
     private class func activeWindow() -> UIWindow? {
